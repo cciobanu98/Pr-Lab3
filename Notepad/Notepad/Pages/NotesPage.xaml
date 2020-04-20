@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<mvx:MvxContentPage  xmlns:mvx="clr-namespace:MvvmCross.Forms.Views;assembly=MvvmCross.Forms" 
+                     xmlns="http://xamarin.com/schemas/2014/forms"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                     xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+                     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                     mc:Ignorable="d"
+                     x:Class="Notepad.UI.Pages.NotesPage"
+                     xmlns:viewModels="clr-namespace:Notepad.Core.ViewModels;assembly=Notepad.Core"
+                     x:TypeArguments="viewModels:NotesPageViewModel"
+                     Title="Notes"
+                     x:Name="Page">
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <mvx:MvxListView ItemsSource="{Binding Notes}"
+                         HasUnevenRows="True"
+                         SelectionMode="None"
+                         x:Name="List"
+                         Grid.Row="0">
+                <mvx:MvxListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell x:Name="Item">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Text="{Binding Title}" Grid.Column="0"/>
+                                <Button Text="Edit" Grid.Column="1" 
+                                    Command="{Binding Source={x:Reference Page}, Path=ViewModel.GoToEditNoteCommand}"
+                                    CommandParameter="{Binding}"/>
+                                <Button Text="Delete" Grid.Column="2" 
+                                    Command="{Binding Source={x:Reference Page}, Path=ViewModel.DeleteNoteCommand}"
+                                    CommandParameter="{Binding}"/>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </mvx:MvxListView.ItemTemplate>
+            </mvx:MvxListView>
+            <StackLayout Orientation="Horizontal" Grid.Row="1" VerticalOptions="End" HorizontalOptions="Center">
+                <Button Text="Create" Command="{Binding GoToCreateNoteCommand}"/>
+            </StackLayout>
+        </Grid>
+    </ContentPage.Content>
+</mvx:MvxContentPage>
